@@ -1,0 +1,40 @@
+#include <iostream>
+#include <string>
+#include <filesystem>
+
+using namespace std;
+namespace fs = std::filesystem;
+
+int main(){
+    setlocale(LC_ALL, "RU");
+    fs::path path("C:/Users/belskiy.o/Desktop/belNikita");
+
+    int command = 0;
+    
+
+    while(command != 3)
+    {
+        cout << "1 - start finding\n2 - see file list\n3 - stop programm\n"; cin >> command;
+        if (command == 3)
+            return 0;
+        else if (command == 1)
+        {
+            string extension;
+            cout << "Enter needed extension: "; cin >> extension;
+
+            auto getFile = [](fs::path path, const string extension) {
+                for (auto i : fs::recursive_directory_iterator(path)) {
+                    if (!i.path().extension().compare(extension))
+                        cout << i.path() << endl;
+                }
+                };
+            getFile(path, extension);
+        }
+        else if (command == 2)
+        {
+            for (auto i : fs::recursive_directory_iterator(path))
+                cout << i.path() << endl;
+        }
+    }
+    return 0;
+}
